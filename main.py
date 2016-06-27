@@ -3,78 +3,105 @@
 
 # Importamos la librería
 import pygame
+import random
 
 import sys
 
 # Importamos constantes locales de pygame
 from pygame.locals import *
 
+import aux
+from menu import *
+from snake import *
+
 # Iniciamos Pygame
 pygame.init()
 
-def load_image(filename, size,transparent=False):
-        try: image = pygame.image.load(filename)
-        except pygame.error, message:
-                raise SystemExit, message
-        image = pygame.transform.scale(image,size)
-        if transparent:
-            image.convert_alpha()
-        return image
+# --- Globales ---
+# Colores
+NEGRO = (0, 0, 0)
+BLANCO = (255, 255, 255)
+ 
+
+
 
 # Creamos una surface (la ventana de juego), asignándole un ancho y un alto
 SCREEN_WIDTH=960
 SCREEN_HEIGHT=640
 pygame.init()
-Ventana = pygame.display.set_mode( (SCREEN_WIDTH,SCREEN_HEIGHT))
+Screen = pygame.display.set_mode( (SCREEN_WIDTH,SCREEN_HEIGHT))
 pygame.display.set_caption('SNAKE!!!')
+
 
 # Elegimos la fuente y el tamaño
 Fuente= pygame.font.SysFont('Impact', 45)
+background =  aux.load_image('./assets/images/backMenu.png',( SCREEN_WIDTH, SCREEN_HEIGHT))
+Screen.blit(background, (0,0))  
 
-# Renderizamos (convertimos a imagen) el mensaje con la fuente definida
+menu_items = (
+    {'message':'CONTINUAR','action':'continuar'}, 
+    {'message':'NUEVO','action':'nuevo'},
+    {'message':'SALIR','action':'salir'})
+gameMenu = Menu(Screen,100,50,menu_items)
 
-b_click = load_image('./assets/images/b_click.png',(300,100),True)
-b_disabled = load_image('./assets/images/b_disabled.png',(300,100),True)
-b_default = load_image('./assets/images/b_default.png',(300,100),True)
-
-music = load_image('./assets/images/musicon.png',(50,50),True)
-sound = load_image('./assets/images/soundon.png',(50,50),True)
-menu = load_image('./assets/images/menu.png',(SCREEN_WIDTH-200, SCREEN_HEIGHT-100),True)
-serpi = load_image('./assets/images/serpi.png',(260,210),True)
-
-background = load_image('./assets/images/backMenu.png',( SCREEN_WIDTH, SCREEN_HEIGHT))
-Ventana.fill((0,0,0))
-
-m_nuevo = Fuente.render("NUEVO", 1, (83, 80, 70))
-m_continuar = Fuente.render("CONTINUAR", 1, (83, 80, 70))
-m_salir = Fuente.render("SALIR", 1, (83, 80, 70))
-
-Ventana.blit(background, (0,0))
-Ventana.blit(menu,(100,50))
-Ventana.blit(music,(10,10))
-Ventana.blit(sound,(70,10))
-Ventana.blit(b_default,(325,150))
-Ventana.blit(m_continuar,(375,170))
-
-Ventana.blit(b_default,(325,250))
-Ventana.blit(m_nuevo,(375,270))
-Ventana.blit(b_default,(325,350))
-Ventana.blit(m_salir,(375,370))
-Ventana.blit(serpi,(350,440))
+serpi =  aux.load_image('./assets/images/serpi.png',(260,210),True)
+music =  aux.load_image('./assets/images/musicon.png',(50,50),True)
+sound =  aux.load_image('./assets/images/soundon.png',(50,50),True)
+Screen.blit(music,(10,10))
+Screen.blit(sound,(70,10))
 
 
+#anotamos eventos
 
-
-# posiciona las imágenes en Ventana
-#Ventana.blit(Fondo, (0, 0))
 # refresca los gráficos
 pygame.display.flip()
 
 # Bucle infinito para mantener el programa en ejecución
+
+
+
+clock = pygame.time.Clock()
+state =1
+dirs = 1
 while True:
-    
+    clock.tick(5)
     # Manejador de eventos
+    if state ==2:
+        if gamePlay.mover(dirs) == False:
+            print 'cambio estado'
+            state = 4 #game over
+    if state == 4:
+        print 'state 4'
+        menu_items = (
+            {'message':'CONTINUAR','action':'continuar'}, 
+            {'message':'NUEVO','action':'nuevo'},
+            {'message':'SALIR','action':'salir'})
+        gameOverMenu = Menu(Screen,100,50,menu_items)
     for evento in pygame.event.get():
         # Pulsación de la tecla escape
         if evento.type == pygame.KEYDOWN and evento.key == pygame.K_ESCAPE:
                 sys.exit()
+        #eventos del menu
+        if state ==1:
+            for item in gameMenu.get_items():
+                if item.is_mouse_selection(pygame.mouse.get_pos()):
+                    item.set_selected()
+                    if pygame.mouse.get_pressed()[0]:
+                        state =item.execute_action()  
+                        if state == 2: #comienzo juego
+                            gamePlay = Game(Screen)
+                elif gameMenu.get_visibility():
+                    item.set_deselected()
+        if gameMenu and gameMenu.get_visibility():
+            Screen.blit(serpi,(350,440))
+
+        if state == 2:
+            if evento.type == pygame.KEYDOWN:
+                if evento.key == K_UP and dirs != 0:dirs = 2
+                elif evento.key == K_DOWN and dirs != 2:dirs = 0
+                elif evento.key == K_LEFT and dirs != 1:dirs = 3
+                elif evento.key == K_RIGHT and dirs != 3:dirs = 1
+
+
+
+    pygame.display.flip()
