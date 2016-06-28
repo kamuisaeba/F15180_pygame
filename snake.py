@@ -23,15 +23,16 @@ recta = pygame.Rect(0, 50, 958, 640-52)
 
 
 class Game:
-	def __init__(self,Screen):
-		self.Screen = Screen
+	def __init__(self):
+		self.Screen = pygame.display.get_surface()
 		recta = pygame.Rect(0, 50, self.Screen.get_width()-2, self.Screen.get_height()-52)
+		sprites_serp.clear(pygame.display.get_surface(),pygame.display.get_surface())
 		self.black_screen()
 		self.serpiente = Serpiente()
 		#direcciones de la serpiente: 0: abajo 1:dcha 2: arriba 3:izda
 		self.direction= 1
 		pygame.display.flip()
-
+		self.state = 'JUEGO'
 
 	def black_screen(self):
 		self.Screen.fill(NEGRO)
@@ -42,9 +43,12 @@ class Game:
 	def mover(self,dir):
 		# Eliminamos el último segmento de la serpiente
 		# .pop() este comando elimina el último objeto de una lista.
-		self.serpiente.mover(dir)
+		self.state = self.serpiente.mover(dir)
 		self.black_screen()
 		sprites_serp.draw(self.Screen)
+		return self.state
+	def gameover(self):
+		self.serpiente.destroy()
 
 
 class Segmento(pygame.sprite.Sprite):
@@ -73,14 +77,14 @@ class Serpiente():
 		ini_x = 300
 		ini_y = 300
 		self.segmentos_serpiente = []
-		for i in range(5):
+		for i in range(3):
 			x = ini_x - (largodel_segmento + margendel_segmento) * i
 			y = ini_y
 			segmento = Segmento(x, y)
 			self.segmentos_serpiente.append(segmento)
 			sprites_serp.add(segmento)
 	def mover(self,dirs):
-		check = True
+		state = 'JUEGO'
 		if dirs == 3:
 			cambio_x = (largodel_segmento + margendel_segmento) * -1
 			cambio_y = 0
@@ -93,14 +97,11 @@ class Serpiente():
 		if dirs == 0:
 			cambio_x = 0
 			cambio_y = (altodel_segmento + margendel_segmento)
-
-
 		# Determinamos dónde aparecerá el nuevo segmento
 		x = self.segmentos_serpiente[0].rect.x + cambio_x
 		y = self.segmentos_serpiente[0].rect.y + cambio_y		
 		if not recta.collidepoint(x,y):
-			print 'choca' 
-			check = False
+			state = 'GAMEOVER'
 		else:
 			segmento_viejo = self.segmentos_serpiente.pop()
 			sprites_serp.remove(segmento_viejo)
@@ -108,6 +109,11 @@ class Serpiente():
 			# Insertamos un nuevo segmento en la lista
 			self.segmentos_serpiente.insert(0, segmento)
 			sprites_serp.add(segmento)
-		print check
-		return check
+		return state
+	def destroy(self):
+		del self.segmentos_serpiente[:]
+		sprites_serp.empty()
+		sprites_serp.remove()
+
+
 

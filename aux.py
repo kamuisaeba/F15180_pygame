@@ -14,6 +14,7 @@ BLANCO = (255, 255, 255)
 GREEN = (51, 255, 51)
 EGG = (102, 255, 140)
 
+
 #helper para cargar imágenes
 def load_image(filename, size,transparent=False):
         try: image = pygame.image.load(filename)

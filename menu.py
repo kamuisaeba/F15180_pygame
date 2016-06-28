@@ -11,15 +11,16 @@ from pygame.locals import *
 import aux
 
 class Menu:
-    def __init__(self,Screen, x, y,items=[]):
-        self.width = Screen.get_width() - 200
-        self.heigth = Screen.get_height() - 100
+    def __init__(self, x, y,items=[]):
+        self.Screen = pygame.display.get_surface()
+        self.width = self.Screen.get_width() - 200
+        self.heigth = self.Screen.get_height() - 100
         self.items = []
         self.visible = True
-        self.Screen = Screen
+
 
         menu =  aux.load_image('./assets/images/menu.png',(self.width, self.heigth),True)
-        Screen.blit(menu, (x,y))
+        self.Screen.blit(menu, (x,y))
 
         #calculamos ancho y alto elementos menu
         item_menu_base_dim_w= (menu.get_width()/2)
@@ -33,8 +34,8 @@ class Menu:
             menu_item = MenuItem(self,item['message'],item['action'],item_menu_base_dim_w,item_menu_base_dim_h,item_x,item_y)
             self.items.append(menu_item)
         for item in self.items:
-            Screen.blit(item.image,item.image_position)
-            Screen.blit(item.text,item.text_position)
+            self.Screen.blit(item.image,item.image_position)
+            self.Screen.blit(item.text,item.text_position)
 
     def get_visibility(self):
         return self.visible
@@ -94,4 +95,4 @@ class MenuItem(pygame.font.Font):
             sys.exit()
         elif self.action == 'nuevo':
             self.menu.change_visibility()
-            return 2
+            return 'JUEGO'
