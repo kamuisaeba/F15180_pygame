@@ -13,6 +13,8 @@ NEGRO = (0, 0, 0)
 BLANCO = (255, 255, 255)
 GREEN = (51, 255, 51)
 EGG = (102, 255, 140)
+RED = (255, 0, 0)
+PURPLE = (128, 0, 128)
 
 
 #helper para cargar imágenes
