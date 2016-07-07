@@ -14,13 +14,15 @@ import aux
 from menu import *
 from snake import *
 
+
 # Iniciamos Pygame
 pygame.init()
 
-# --- Globales ---
-# Colores
+#conexion a base datos
 
- 
+ init_tables()
+ conection = init_database()
+ sound = 
 
 
 

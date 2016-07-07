@@ -1,0 +1,6 @@
+[mysql]
+host : localhost
+user : snake
+pass : snake
+port : 1234
+db : snake
