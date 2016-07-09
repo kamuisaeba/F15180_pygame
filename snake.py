@@ -21,7 +21,7 @@ manzanas = pygame.sprite.Group()
 largodel_segmento = 10
 altodel_segmento = 10
 # Margen entre cada segmento
-margendel_segmento = 3
+margendel_segmento = 1
 #rectangulo delimitador
 recta = pygame.Rect(0, 50, 958, 640-52)
 
@@ -58,7 +58,6 @@ class Game:
 		while wait:
 			evento = pygame.event.wait()
 			if evento.type == KEYDOWN and evento.key != K_ESCAPE:
-				print self.direction
 				if evento.key == K_UP and self.direction != 0: self.direction = 2
 				elif evento.key == K_DOWN and self.direction != 2: self.direction = 0
 				elif evento.key == K_LEFT and self.direction != 1: self.direction = 3
@@ -80,12 +79,13 @@ class Game:
 		return self.direction
 
 
+	def get_score(self):
+		return self.score
 
-	def getLevel(self):
+	def get_level(self):
 		return self.level
 	def puntosNecesarios(self):
 		constant = 0.1
-
 		return round(pow(self.level,2) / constant)
 
 	def black_screen(self,message=None):
@@ -123,7 +123,6 @@ class Game:
 			self.levelup()
 		self.nuevaManzana()
 		self.state = 'JUEGO'
-		print 'puntuacion: %d' % (self.score)
 	def levelup(self):
 		self.level = self.level+1
 

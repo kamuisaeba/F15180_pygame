@@ -1,6 +1,14 @@
 [mysql]
-host : localhost
-user : snake
-pass : snake
-port : 1234
-db : snake
+host = localhost
+user = snake
+pass = snake
+port = 1234
+db = snake
+
+[global]
+music = True
+sound = True
+
+[halloffame]
+limit = 10
+

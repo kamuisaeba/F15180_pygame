@@ -85,7 +85,7 @@ class MenuItem(pygame.font.Font):
 		self.image_default = aux.load_image('./assets/images/b_default.png',(w,h),True)
 		self.image_selected = aux.load_image('./assets/images/b_click.png',(w,h),True)
 		self.Fuente= pygame.font.SysFont('Impact', 45)
-		pygame.font.Font.__init__(self, './assets/FFF_Tusj.ttf', 45)
+		pygame.font.Font.__init__(self, './assets/font/FFF_Tusj.ttf', 45)
 		self.image = self.image_default
 		self.pos_x = x
 		self.pos_y = y

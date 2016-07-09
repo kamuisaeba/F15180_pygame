@@ -18,11 +18,12 @@ PURPLE = (128, 0, 128)
 
 
 #helper para cargar imágenes
-def load_image(filename, size,transparent=False):
-        try: image = pygame.image.load(filename)
-        except pygame.error, message:
-                raise SystemExit, message
-        image = pygame.transform.scale(image,size)
-        if transparent:
-            image.convert_alpha()
-        return image
+def load_image(filename, size=None,transparent=False):
+		try: image = pygame.image.load(filename)
+		except pygame.error, message:
+				raise SystemExit, message
+		if size:
+			image = pygame.transform.scale(image,size)
+		if transparent:
+			image.convert_alpha()
+		return image
