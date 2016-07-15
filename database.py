@@ -76,7 +76,6 @@ class GameConfig:
 		self.micursor.execute(query)
 		data = self.micursor.fetchall()
 		self.micursor.close()
-		print data
 		return data
 
 	def insert_ranking(self,user,score,level):
@@ -88,6 +87,13 @@ class GameConfig:
 		self.micursor.execute(query)
 		self.micursor.close()	
 		self.conection.commit()
+		position = 0
+		for i,a in enumerate(self.populate_ranking()):
+			if a['user'] == user and a['score'] == score and a['level'] == level:
+				position = i+1
+		return position
+
+
 	def get_range_ranking(self):
 		'''
 		devuelve el minimo y maximo actual para estar en el ranking

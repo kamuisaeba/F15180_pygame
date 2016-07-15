@@ -78,14 +78,15 @@ class Game:
 		self.wait_for_key()
 		return self.direction
 
-
+	def change_sound(self,status):
+		self.sound_c = status
 	def get_score(self):
 		return self.score
 
 	def get_level(self):
 		return self.level
 	def puntosNecesarios(self):
-		constant = 0.1
+		constant = 0.5
 		return round(pow(self.level,2) / constant)
 
 	def black_screen(self,message=None):
@@ -119,11 +120,15 @@ class Game:
 		self.serpiente.destroy()
 	def sumapunto(self):
 		self.score = self.score + 1
+		if self.sound_c == True:
+			score_sound.play()
 		if self.score == self.puntosNecesarios():
 			self.levelup()
 		self.nuevaManzana()
 		self.state = 'JUEGO'
 	def levelup(self):
+		if self.sound_c == True:
+			levelup_sound.play()
 		self.level = self.level+1
 
 	def nuevaManzana(self):

@@ -6,9 +6,9 @@ port = 1234
 db = snake
 
 [global]
-music = True
+music = False
 sound = True
 
 [halloffame]
-limit = 10
+limit = 18
 

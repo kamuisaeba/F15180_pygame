@@ -16,20 +16,26 @@ class Menu:
 		self.width = self.Screen.get_width() - 200
 		self.heigth = self.Screen.get_height() - 100
 		self.items = []
+		self.item_array = items
 		self.visible = True
 		self.selected = -1
+		self.x = x
+		self.y = y
 
+		self.draw()
+
+	def draw(self):
 
 		menu =  aux.load_image('./assets/images/menu.png',(self.width, self.heigth),True)
-		self.Screen.blit(menu, (x,y))
+		self.Screen.blit(menu, (self.x,self.y))
 
 		#calculamos ancho y alto elementos menu
 		item_menu_base_dim_w= (menu.get_width()/2)
-		item_menu_base_dim_h= (menu.get_height()-200) / len(items)
+		item_menu_base_dim_h= (menu.get_height()-200) / len(self.item_array)
 		item_menu_base_dim = (menu.get_width()-100,menu.get_height()-200)
-		item_menu_base_coord_x = x+200
-		item_menu_base_coord_y = y+100
-		for index,item in enumerate(items):
+		item_menu_base_coord_x = self.x+200
+		item_menu_base_coord_y = self.y+100
+		for index,item in enumerate(self.item_array):
 			item_x= item_menu_base_coord_x
 			item_y= item_menu_base_coord_y + (index* item_menu_base_dim_h)
 			menu_item = MenuItem(self,item['message'],item['action'],item_menu_base_dim_w,item_menu_base_dim_h,item_x,item_y)
