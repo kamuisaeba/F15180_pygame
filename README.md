@@ -13,3 +13,9 @@ MEJORAS EN ENTREGA FINAL:
 - Consultar hall de la fama
 - Configuración de base de datos y parámetros globales vía fichero yml
 - nombre de usuario seleccionable
+- 
+para jugar debe primero ejecutar el fichero database.sql.
+En él se creará base de datos y tablas, así como un usuario inicial.
+Estos datos corresponden con el fichero configuración.yml
+Modificar según configuración de mysql
+
