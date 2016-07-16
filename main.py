@@ -90,8 +90,10 @@ def display_box(message):
 
 	pygame.display.flip()
 
-def ask():
+def ask(user = ''):
 	current_string=[]
+	for a in user:
+		current_string.append(a)
 	question = 'nombre(max 10): '
 	display_box(question +string.join(current_string,""))
 	while 1:
@@ -156,6 +158,7 @@ state ='MENU'
 direction = 1
 ticks = 10
 ticks_inicial = 10
+user = ""
 gamePlay = Game()
 
 while True:
@@ -177,7 +180,7 @@ while True:
 			score = gamePlay.get_score()
 			level =gamePlay.get_level()
 			if score > 0 and (range_ranking['count'] < ranking_limit or range_ranking['min'] < score):
-				user = ask()
+				user = ask(user)
 				if user == '':
 					user = 'anonymous'
 				position = gameconfig.insert_ranking(user,score,level)

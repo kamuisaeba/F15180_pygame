@@ -7,8 +7,9 @@ CARACTERÍSTICAS DEL JUEGO:
 - Reiniciar juego
 - niveles de dificultad (mayor nivel más rápida va la serpiente)
 
-A MEJORAR EN ENTREGA FINAL:
+MEJORAS EN ENTREGA FINAL:
 - Sonido on/off configurable
 - top 10 jugadores en base datos
-- continuar si existe partida iniciada, incluso cerrando el juego
 - Consultar hall de la fama
+- Configuración de base de datos y parámetros globales vía fichero yml
+- nombre de usuario seleccionable
